@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoRent Pro - Luxury Car Rental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        
+        /* Khi hover hoặc đang Active thì đổi màu vàng */
+        .nav-link:hover, .nav-link.active {
+            color: #ffc107 !important; /* Màu vàng */
+        }
+
+        /* Tạo thanh gạch dưới (thanh scroll giả) */
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px; /* Độ dày của thanh */
+            bottom: 5px;
+            left: 50%;
+            background-color: #ffc107; /* Màu vàng */
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        /* Khi Active thì thanh gạch dưới dài ra 100% */
+        .nav-link.active::after {
+            width: 80%; /* Chiều dài thanh gạch dưới */
+        }
+        
+        .nav-link:hover::after {
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black sticky-top py-3">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <i class="fa-solid fa-car-tunnel me-2 text-warning fs-3"></i>
+                <span class="fw-bold fs-4 text-white">AUTORENT</span>
+                <span class="fw-bold fs-4 text-warning">PRO</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link px-3" href="/">Trang chủ</a></li>
+                    <li class="nav-item"><a class="nav-link px-3" href="/cars">Dòng xe</a></li>
+                    
+                    <% if (typeof user !== 'undefined' && user) { %>
+                        <li class="nav-item"><a class="nav-link px-3" href="/bookings/my-bookings">Lịch sử</a></li>
+                        
+                        <li class="nav-item ms-lg-3 dropdown">
+                            <a class="btn btn-outline-light rounded-pill px-4 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                Xin chào, <%= user.name %>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
+                <% if(user.role === 'ADMIN' || user.role === 'OWNER') { %>
+                    <li>
+                        <a class="dropdown-item text-warning fw-bold" href="/admin/dashboard">
+                            <i class="fas fa-chart-line me-2"></i>Trang quản lý
+                        </a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                <% } %>
+                <li><a class="dropdown-item text-danger" href="/auth/logout">Đăng xuất</a></li>
+            </ul>
+                        </li>
+
+                    <% } else { %>
+                        <li class="nav-item">
+                            <a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Lịch sử</a>
+                        </li>
+
+                        <li class="nav-item ms-lg-3">
+                            <button class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                <i class="fas fa-user me-2"></i>Đăng nhập
+                            </button>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            navLinks.forEach(link => {
+                // Nếu link href giống với đường dẫn hiện tại (hoặc logic cha con)
+                // Ví dụ: Đang ở /cars/detail thì mục /cars vẫn sáng
+                if (link.getAttribute('href') === currentPath || (currentPath.startsWith('/cars') && link.getAttribute('href') === '/cars')) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+    <main>

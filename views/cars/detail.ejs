@@ -1,0 +1,267 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/" class="text-decoration-none text-secondary">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="/cars" class="text-decoration-none text-secondary">Dòng xe</a></li>
+            <li class="breadcrumb-item active fw-bold text-dark" aria-current="page"><%= car.brand %> <%= car.model %></li>
+        </ol>
+    </nav>
+
+    <div class="row g-5 align-items-start">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 position-relative">
+                <img src="<%= car.image %>" class="img-fluid w-100" alt="<%= car.model %>" style="height: 450px; object-fit: cover;">
+                <div class="position-absolute top-0 start-0 m-3">
+                    <span class="badge bg-dark px-3 py-2 fs-6 shadow">Biển số: <%= car.licensePlate %></span>
+                </div>
+            </div>
+            
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-4 border-start border-4 border-warning ps-3">Thông số kỹ thuật</h5>
+                    <div class="row row-cols-2 row-cols-md-4 g-3">
+                        <div class="col text-center">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <div class="small fw-bold text-muted text-uppercase">Số chỗ</div>
+                                <div class="fw-bold"><%= car.seats %> Chỗ</div>
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <div class="small fw-bold text-muted text-uppercase">Nhiên liệu</div>
+                                <div class="fw-bold"><%= car.fuelType %></div>
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <div class="small fw-bold text-muted text-uppercase">Hộp số</div>
+                                <div class="fw-bold"><%= car.transmission %></div>
+                            </div>
+                        </div>
+                        <div class="col text-center">
+                            <div class="p-3 bg-light rounded-3 h-100">
+                                <div class="small fw-bold text-muted text-uppercase">Loại xe</div>
+                                <div class="fw-bold">Sedan/SUV</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 sticky-column" style="position: sticky; top: 20px; z-index: 10;">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-dark text-white p-4">
+                    <h4 class="fw-bold mb-0"><%= car.model %></h4>
+                    <div class="text-warning small mb-2"><%= car.brand %></div>
+                </div>
+
+                <div class="card-body p-4 bg-white">
+                    <% if(car.status === 'RENTED' || car.status === 'MAINTENANCE') { %>
+                        <div class="alert alert-danger text-center mb-0">
+                            <i class="fas fa-times-circle me-2"></i>
+                            Xe hiện đang <strong><%= car.status === 'RENTED' ? 'ĐƯỢC THUÊ' : 'BẢO TRÌ' %></strong>
+                        </div>
+                    <% } else { %>
+                        <form action="/bookings" method="POST" id="bookingForm">
+                            <input type="hidden" name="carId" value="<%= car._id %>">
+                            <input type="hidden" name="startDate" id="finalStartDate">
+                            <input type="hidden" name="endDate" id="finalEndDate">
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold small text-muted">BẠN MUỐN THUÊ THEO?</label>
+                                <div class="d-flex gap-2">
+                                    <div class="form-check p-3 border rounded-3 w-50 bg-light pointer-cursor" onclick="document.getElementById('typeDay').click()">
+                                        <input class="form-check-input" type="radio" name="rentalType" id="typeDay" value="daily" checked>
+                                        <label class="form-check-label fw-bold w-100 pointer-cursor small" for="typeDay">
+                                            Theo Ngày <br>
+                                            <span class="text-danger"><%= car.pricePerDay.toLocaleString() %> đ</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check p-3 border rounded-3 w-50 bg-light pointer-cursor" onclick="document.getElementById('typeHour').click()">
+                                        <input class="form-check-input" type="radio" name="rentalType" id="typeHour" value="hourly">
+                                        <label class="form-check-label fw-bold w-100 pointer-cursor small" for="typeHour">
+                                            Theo Giờ <br>
+                                            <span class="text-danger"><%= car.pricePerHour.toLocaleString() %> đ</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold small">Thời gian nhận</label>
+                                <div class="row g-2">
+                                    <div class="col-7">
+                                        <input type="date" id="dateStart" class="form-control" required>
+                                    </div>
+                                    <div class="col-5">
+                                        <select id="timeStart" class="form-select text-center fw-bold bg-light">
+                                            </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold small">Thời gian trả</label>
+                                <div class="row g-2">
+                                    <div class="col-7">
+                                        <input type="date" id="dateEnd" class="form-control" required>
+                                    </div>
+                                    <div class="col-5">
+                                        <select id="timeEnd" class="form-select text-center fw-bold bg-light">
+                                            </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-light p-3 rounded-3 mb-4 border border-dashed">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted" id="labelUnit">Số ngày thuê:</span>
+                                    <span class="fw-bold" id="totalUnit">0</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="fw-bold">TỔNG CỘNG:</span>
+                                    <span class="fw-bold text-danger fs-4" id="totalPrice">0 đ</span>
+                                </div>
+                            </div>
+
+                            <% if (typeof user !== 'undefined' && user) { %>
+                                <button type="submit" class="btn btn-warning w-100 py-3 fw-bold shadow-sm">XÁC NHẬN ĐẶT XE</button>
+                            <% } else { %>
+                                <button type="button" class="btn btn-outline-dark w-100 py-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    Đăng nhập để đặt
+                                </button>
+                            <% } %>
+                        </form>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="mt-4 text-center">
+                <p class="text-muted small"><i class="fas fa-shield-alt text-success me-1"></i> Cam kết xe đúng như hình ảnh</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const timeStartSelect = document.getElementById('timeStart');
+        const timeEndSelect = document.getElementById('timeEnd');
+        
+        function populateTimeSelect(select) {
+            for (let i = 0; i < 24; i++) {
+                const h = i.toString().padStart(2, '0');
+                const t1 = `${h}:00`;
+                const t2 = `${h}:30`;
+                select.options.add(new Option(t1, t1));
+                select.options.add(new Option(t2, t2));
+            }
+        }
+        populateTimeSelect(timeStartSelect);
+        populateTimeSelect(timeEndSelect);
+
+        timeStartSelect.value = "08:00";
+        timeEndSelect.value = "08:00";
+
+        const dateStart = document.getElementById('dateStart');
+        const dateEnd = document.getElementById('dateEnd');
+        const finalStartDate = document.getElementById('finalStartDate');
+        const finalEndDate = document.getElementById('finalEndDate');
+        
+        const typeDay = document.getElementById('typeDay');
+        const typeHour = document.getElementById('typeHour');
+        const totalUnit = document.getElementById('totalUnit');
+        const totalPrice = document.getElementById('totalPrice');
+        const labelUnit = document.getElementById('labelUnit');
+
+        const priceDay = <%= car.pricePerDay %>;
+        const priceHour = <%= car.pricePerHour %>;
+
+        const today = new Date().toISOString().split('T')[0];
+        dateStart.min = today;
+        dateEnd.min = today;
+
+        function autoFillEndDate() {
+            if (!dateStart.value) return;
+
+            const startDateVal = new Date(dateStart.value);
+            dateEnd.min = dateStart.value; 
+
+            if (typeDay.checked) {
+                const nextDay = new Date(startDateVal);
+                nextDay.setDate(startDateVal.getDate() + 1);
+                dateEnd.value = nextDay.toISOString().split('T')[0];
+            } else {
+                dateEnd.value = dateStart.value;
+            }
+            updateCalculation();
+        }
+
+        dateStart.addEventListener('change', autoFillEndDate);
+
+        typeDay.addEventListener('change', autoFillEndDate);
+        typeHour.addEventListener('change', autoFillEndDate);
+
+        timeStartSelect.addEventListener('change', function() {
+            timeEndSelect.value = this.value;
+            updateCalculation();
+        });
+
+        function updateCalculation() {
+            if (!dateStart.value || !dateEnd.value) return;
+
+            const startString = `${dateStart.value}T${timeStartSelect.value}`;
+            const endString = `${dateEnd.value}T${timeEndSelect.value}`;
+
+            finalStartDate.value = startString;
+            finalEndDate.value = endString;
+
+            const start = new Date(startString);
+            const end = new Date(endString);
+            const now = new Date();
+
+            if (start < now) {
+                totalUnit.innerText = "Lỗi thời gian";
+                totalPrice.innerText = "Chọn lại";
+                return; 
+            }
+
+            if (end > start) {
+                const diffMs = end - start;
+                let total = 0;
+
+                if (typeHour.checked) {
+                    labelUnit.innerText = "Số giờ thuê:";
+                    const hours = Math.ceil(diffMs / (1000 * 60 * 30)) / 2;
+                    totalUnit.innerText = hours + " giờ";
+                    total = hours * priceHour;
+                } else {
+                    labelUnit.innerText = "Số ngày thuê:";
+                    const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+                    totalUnit.innerText = days + " ngày";
+                    total = days * priceDay;
+                }
+                
+                totalPrice.innerText = total.toLocaleString('vi-VN') + ' đ';
+            } else {
+                totalUnit.innerText = "0";
+                totalPrice.innerText = "0 đ";
+            }
+        }
+        
+        dateEnd.addEventListener('change', updateCalculation);
+        timeEndSelect.addEventListener('change', updateCalculation);
+    });
+</script>
+
+<style>
+    .pointer-cursor { cursor: pointer; }
+    html { scroll-behavior: smooth; }
+    .form-select { cursor: pointer; }
+</style>
+
+<%- include('../partials/footer') %>

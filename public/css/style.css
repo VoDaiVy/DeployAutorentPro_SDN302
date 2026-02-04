@@ -1,0 +1,157 @@
+/* Biến màu sắc & Font */
+:root {
+    --primary-color: #ffc107;
+    --dark-bg: #111111;     
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --font-main: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-main);
+    background-color: #f8f9fa;
+    color: var(--text-color);
+}
+
+/* Navbar styles */
+.navbar {
+    box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px); 
+}
+
+.nav-link {
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Hero Section Mới */
+.hero-section {
+    position: relative;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1503376763036-066120622c74?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 70vh; 
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Card Style (Xe & Tính năng) */
+.card-custom {
+    border: none;
+    border-radius: 15px;
+    background: var(--card-bg);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card-custom:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.card-img-wrapper {
+    overflow: hidden;
+    height: 220px;
+    position: relative;
+}
+
+.card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card-custom:hover .card-img-wrapper img {
+    transform: scale(1.1); 
+}
+
+.badge-price {
+    background-color: var(--dark-bg);
+    color: var(--primary-color);
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Buttons */
+.btn-warning {
+    background-color: var(--primary-color);
+    border: none;
+    color: #000;
+    transition: all 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    transform: scale(1.05);
+}
+
+.feature-icon-box {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 193, 7, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+/* Footer */
+footer {
+    background-color: #1a1a1a !important;
+    border-top: 3px solid var(--primary-color);
+}
+
+/* Hiệu ứng làm mờ nền khi mở Modal */
+.modal-backdrop.show {
+    backdrop-filter: blur(5px); /* Làm mờ nhòe background */
+    background-color: rgba(0, 0, 0, 0.7); /* Màu tối hơn chút */
+    opacity: 1 !important; /* Ghi đè bootstrap để hiện rõ màu tối */
+}
+
+/* Tùy chỉnh Modal cho đẹp */
+.modal-content {
+    border-radius: 15px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+}
+
+.modal-header {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-color);
+}
+
+.form-control {
+    border-radius: 8px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    background-color: #f8f9fa;
+}

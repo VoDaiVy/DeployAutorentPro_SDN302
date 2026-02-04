@@ -1,0 +1,171 @@
+<%- include('partials/header') %>
+
+<header class="position-relative overflow-hidden" style="height: 85vh; min-height: 600px;">
+    
+    <div class="video-docker position-absolute top-0 start-0 w-100 h-100" style="z-index: 0;">
+        <iframe class="w-100 h-100" 
+            src="https://www.youtube.com/embed/J7LueobArWw?autoplay=1&mute=1&loop=1&playlist=J7LueobArWw&controls=0&showinfo=0&rel=0&disablekb=1&modestbranding=1&playsinline=1" 
+            title="Car Background" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            style="pointer-events: none; transform: scale(1.3);"> 
+        </iframe>
+    </div>
+
+    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.95) 100%); z-index: 1;"></div>
+    
+    <div class="container h-100 position-relative d-flex flex-column justify-content-center align-items-center text-center text-white pb-5" style="z-index: 2;">
+        
+        <span class="badge border border-warning text-warning px-4 py-2 mb-3 rounded-pill fw-light tracking-wider" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);">
+            PREMIUM CAR RENTAL
+        </span>
+        
+        <h1 class="fw-bolder mb-2 text-uppercase display-4 tracking-wide" style="text-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+            Chạm Vào <span class="text-warning">Đẳng Cấp</span>
+        </h1>
+        
+        <p class="mb-4 w-75 mx-auto text-light opacity-90 fs-5 fw-light">
+            Hệ thống thuê xe tự lái hàng đầu Việt Nam. <br class="d-none d-md-block">
+            Thủ tục online 100%, giao xe tận nơi chỉ trong 30 phút.
+        </p>
+
+        <div class="d-flex gap-3 mb-2"> 
+            <a href="/cars" class="btn btn-warning fw-bold px-5 py-3 rounded-pill shadow-lg hover-up text-uppercase" style="letter-spacing: 1px;">
+                <i class="fas fa-car me-2"></i>Xem Xe Ngay
+            </a>
+            <a href="#how-it-works" class="btn btn-outline-light fw-bold px-5 py-3 rounded-pill hover-up text-uppercase" style="letter-spacing: 1px; backdrop-filter: blur(5px);">
+                Tìm Hiểu
+            </a>
+        </div>
+    </div>
+
+    <div class="position-absolute bottom-0 start-0 w-100 border-top border-white border-opacity-10" style="z-index: 3; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px);">
+        <div class="container">
+            <div class="row text-center py-3"> 
+                <div class="col-md-3 col-6 border-end border-white border-opacity-10">
+                    <h2 class="fw-bold text-white mb-0 display-6">50+</h2>
+                    <div class="small text-white-50 text-uppercase tracking-wider mt-1" style="font-size: 0.75rem;">Dòng xe đời mới</div>
+                </div>
+                <div class="col-md-3 col-6 border-end border-white border-opacity-10 d-none d-md-block">
+                    <h2 class="fw-bold text-white mb-0 display-6">5k+</h2>
+                    <div class="small text-white-50 text-uppercase tracking-wider mt-1" style="font-size: 0.75rem;">Khách hàng hài lòng</div>
+                </div>
+                <div class="col-md-3 col-6 d-md-none">
+                    <h2 class="fw-bold text-white mb-0 display-6">5k+</h2>
+                    <div class="small text-white-50 text-uppercase tracking-wider mt-1" style="font-size: 0.75rem;">Khách hàng</div>
+                </div>
+                <div class="col-md-3 col-6 border-end border-white border-opacity-10">
+                    <h2 class="fw-bold text-white mb-0 display-6">30 phút</h2>
+                    <div class="small text-white-50 text-uppercase tracking-wider mt-1" style="font-size: 0.75rem;">Thủ tục nhận xe</div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <h2 class="fw-bold text-white mb-0 display-6">24/7</h2>
+                    <div class="small text-white-50 text-uppercase tracking-wider mt-1" style="font-size: 0.75rem;">Hỗ trợ sự cố</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section id="how-it-works" class="py-5 bg-light">
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h6 class="text-warning fw-bold text-uppercase tracking-wider">Quy trình đơn giản</h6>
+            <h2 class="fw-bold text-dark display-6">3 Bước Để Lăn Bánh</h2>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card border-0 h-100 bg-transparent text-center">
+                    <div class="mx-auto bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center mb-4 transition-icon" style="width: 90px; height: 90px;">
+                        <i class="fas fa-search text-warning fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold">1. Chọn Xe</h4>
+                    <p class="text-muted">Xem hình ảnh thực tế, so sánh giá và thông số kỹ thuật của hơn 50 dòng xe.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 h-100 bg-transparent text-center">
+                    <div class="mx-auto bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center mb-4 transition-icon" style="width: 90px; height: 90px;">
+                        <i class="fas fa-calendar-check text-warning fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold">2. Đặt Lịch</h4>
+                    <p class="text-muted">Đặt xe chỉ với vài cú click. Hệ thống tự động giữ xe và xác nhận ngay lập tức.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-0 h-100 bg-transparent text-center">
+                    <div class="mx-auto bg-white shadow-sm rounded-circle d-flex align-items-center justify-content-center mb-4 transition-icon" style="width: 90px; height: 90px;">
+                        <i class="fas fa-key text-warning fs-2"></i>
+                    </div>
+                    <h4 class="fw-bold">3. Nhận Xe</h4>
+                    <p class="text-muted">Giao xe tận nhà hoặc sân bay. Ký hợp đồng điện tử và bắt đầu hành trình.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <img src="https://images.unsplash.com/photo-1550355291-bbee04a92027?q=80&w=800&auto=format&fit=crop" class="img-fluid rounded-4 shadow-lg" alt="Why Choose Us">
+            </div>
+            <div class="col-lg-6 ps-lg-5">
+                <h6 class="text-warning fw-bold text-uppercase tracking-wider mb-2">Về AutoRent Pro</h6>
+                <h2 class="fw-bold mb-4 display-6">Dịch Vụ Chuẩn 5 Sao</h2>
+                <p class="text-muted mb-4 fs-5">Chúng tôi không chỉ cho thuê xe, chúng tôi mang đến trải nghiệm tự do và đẳng cấp cho hành trình của bạn.</p>
+
+                <div class="d-flex mb-4">
+                    <i class="fas fa-check-circle text-success fs-4 mt-1 me-3"></i>
+                    <div>
+                        <h5 class="fw-bold mb-1">Bảo Hiểm Toàn Diện</h5>
+                        <p class="text-muted mb-0">An tâm tuyệt đối với gói bảo hiểm vật chất và trách nhiệm dân sự.</p>
+                    </div>
+                </div>
+
+                <div class="d-flex mb-5">
+                    <i class="fas fa-tag text-success fs-4 mt-1 me-3"></i>
+                    <div>
+                        <h5 class="fw-bold mb-1">Giá Tốt Nhất</h5>
+                        <p class="text-muted mb-0">Cam kết không ẩn phí. Nhiều ưu đãi đặc quyền cho thành viên.</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-dark rounded-pill px-5 py-3 fw-bold hover-up" data-bs-toggle="modal" data-bs-target="#registerModal">
+                    Đăng Ký Thành Viên Ngay
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .video-docker iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    @media (min-aspect-ratio: 16/9) {
+        .video-docker iframe { height: 300%; top: -100%; }
+    }
+    @media (max-aspect-ratio: 16/9) {
+        .video-docker iframe { width: 300%; left: -100%; }
+    }
+
+    .hover-up { transition: transform 0.3s ease; }
+    .hover-up:hover { transform: translateY(-5px); }
+    
+    .transition-icon { transition: all 0.3s ease; }
+    .card:hover .transition-icon {
+        background-color: #ffc107 !important;
+        transform: scale(1.1);
+    }
+    .card:hover .transition-icon i { color: #000 !important; }
+
+    .tracking-wide { letter-spacing: 2px; }
+    .tracking-wider { letter-spacing: 1px; }
+</style>
+
+<%- include('partials/footer') %>

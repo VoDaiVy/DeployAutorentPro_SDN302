@@ -1,0 +1,96 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5" style="min-height: 80vh;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold text-dark border-start border-4 border-warning ps-3">
+            Lịch sử thuê xe của tôi
+        </h2>
+        <a href="/cars" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="fas fa-plus me-2"></i>Thuê thêm xe
+        </a>
+    </div>
+
+    <% if (bookings.length === 0) { %>
+        <div class="text-center py-5">
+            <img src="https://cdn-icons-png.flaticon.com/512/7486/7486747.png" alt="Empty" style="width: 150px; opacity: 0.5;">
+            <h4 class="text-muted mt-4">Bạn chưa có chuyến đi nào!</h4>
+            <p class="text-muted">Hãy chọn một chiếc xe ưng ý và bắt đầu hành trình ngay.</p>
+            <a href="/cars" class="btn btn-warning fw-bold px-5 mt-2 shadow-sm">Tìm xe ngay</a>
+        </div>
+    <% } else { %>
+        <div class="row g-4">
+            <% bookings.forEach(booking => { %>
+                <div class="col-md-6 col-lg-4">
+                    <div class="card border-0 shadow-sm h-100 rounded-4 overflow-hidden hover-shadow transition-card">
+                        <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center pt-3 px-3">
+                            <small class="text-muted">
+                                <i class="far fa-clock me-1"></i> 
+                                <%= new Date(booking.createdAt).toLocaleDateString('vi-VN') %>
+                            </small>
+                            <% if (booking.status === 'CONFIRMED') { %>
+                                <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill">Đã xác nhận</span>
+                            <% } else if (booking.status === 'PENDING') { %>
+                                <span class="badge bg-warning bg-opacity-10 text-warning px-3 py-2 rounded-pill">Chờ duyệt</span>
+                            <% } else if (booking.status === 'CANCELLED') { %>
+                                <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill">Đã hủy</span>
+                            <% } else { %>
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary px-3 py-2 rounded-pill">Hoàn thành</span>
+                            <% } %>
+                        </div>
+
+                        <div class="card-body px-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="<%= booking.carId.image %>" class="rounded-3 object-fit-cover shadow-sm" width="80" height="60" alt="Car">
+                                <div class="ms-3">
+                                    <h5 class="fw-bold mb-0 text-truncate" style="max-width: 200px;"><%= booking.carId.model %></h5>
+                                    <small class="text-muted"><%= booking.carId.brand %></small>
+                                </div>
+                            </div>
+
+                            <div class="bg-light rounded-3 p-3 mb-3">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <small class="text-muted">Nhận xe:</small>
+                                    <small class="fw-bold text-dark">
+                                        <%= new Date(booking.startDate).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                                    </small>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <small class="text-muted">Trả xe:</small>
+                                    <small class="fw-bold text-dark">
+                                        <%= new Date(booking.endDate).toLocaleString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center border-top pt-3">
+                                <span class="text-muted small">Tổng thanh toán</span>
+                                <span class="fw-bold text-danger fs-5">
+                                    <%= booking.totalPrice.toLocaleString('vi-VN') %> đ
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 px-3 pb-3 pt-0">
+                            <div class="d-grid">
+                                <button class="btn btn-outline-dark btn-sm rounded-pill fw-bold">Xem chi tiết</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        transition: all 0.3s ease;
+    }
+    .transition-card {
+        transition: all 0.3s ease;
+    }
+</style>
+
+<%- include('../partials/footer') %>

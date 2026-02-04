@@ -1,0 +1,86 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-header bg-dark text-white p-4 rounded-top-4">
+                    <h4 class="fw-bold mb-0">
+                        <%= car ? 'CẬP NHẬT THÔNG TIN XE' : 'THÊM XE MỚI VÀO HỆ THỐNG' %>
+                    </h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="<%= car ? '/admin/cars/edit/' + car._id : '/admin/cars/add' %>" method="POST">
+                        
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Hãng xe</label>
+                                <input type="text" name="brand" class="form-control" value="<%= car ? car.brand : '' %>" placeholder="Ví dụ: Mercedes" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Dòng xe (Model)</label>
+                                <input type="text" name="model" class="form-control" value="<%= car ? car.model : '' %>" placeholder="Ví dụ: C300 AMG" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small mb-1">Biển số xe</label>
+                            <input type="text" name="licensePlate" class="form-control" value="<%= car ? car.licensePlate : '' %>" required>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Giá thuê theo NGÀY (VNĐ)</label>
+                                <input type="number" name="pricePerDay" class="form-control" value="<%= car ? car.pricePerDay : '' %>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Giá thuê theo GIỜ (VNĐ)</label>
+                                <input type="number" name="pricePerHour" class="form-control" value="<%= car ? car.pricePerHour : '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4">
+                                <label class="fw-bold small mb-1">Số chỗ</label>
+                                <input type="number" name="seats" class="form-control" value="<%= car ? car.seats : 4 %>">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fw-bold small mb-1">Nhiên liệu</label>
+                                <select name="fuelType" class="form-select">
+                                    <option value="Xăng" <%= car && car.fuelType === 'Xăng' ? 'selected' : '' %>>Xăng</option>
+                                    <option value="Dầu" <%= car && car.fuelType === 'Dầu' ? 'selected' : '' %>>Dầu</option>
+                                    <option value="Điện" <%= car && car.fuelType === 'Điện' ? 'selected' : '' %>>Điện</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="fw-bold small mb-1">Truyền động</label>
+                                <select name="transmission" class="form-select">
+                                    <option value="Tự động" <%= car && car.transmission === 'Tự động' ? 'selected' : '' %>>Tự động</option>
+                                    <option value="Số sàn" <%= car && car.transmission === 'Số sàn' ? 'selected' : '' %>>Số sàn</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small mb-1">Link Hình Ảnh (URL)</label>
+                            <input type="text" name="image" class="form-control" value="<%= car ? car.image : '' %>" placeholder="https://..." required>
+                            <div class="form-text">Copy link ảnh từ trên mạng dán vào đây.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="fw-bold small mb-1">Mô tả chi tiết</label>
+                            <textarea name="description" class="form-control" rows="4"><%= car ? car.description : '' %></textarea>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-warning fw-bold px-5">LƯU THÔNG TIN</button>
+                            <a href="/admin/dashboard" class="btn btn-light border px-4">Hủy bỏ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
