@@ -15,4 +15,7 @@ router.post('/cars/edit/:id', adminController.updateCar);
 
 router.get('/cars/delete/:id', adminController.deleteCar);
 
+router.get('/bookings', adminController.getBookings);   
+router.post('/bookings/:id', adminController.updateBookingStatus);
+
 module.exports = router;

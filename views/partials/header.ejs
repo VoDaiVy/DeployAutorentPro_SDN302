@@ -56,41 +56,49 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link px-3" href="/">Trang chủ</a></li>
-                    <li class="nav-item"><a class="nav-link px-3" href="/cars">Dòng xe</a></li>
-                    
-                    <% if (typeof user !== 'undefined' && user) { %>
-                        <li class="nav-item"><a class="nav-link px-3" href="/bookings/my-bookings">Lịch sử</a></li>
-                        
-                        <li class="nav-item ms-lg-3 dropdown">
-                            <a class="btn btn-outline-light rounded-pill px-4 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                Xin chào, <%= user.name %>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
-                <% if(user.role === 'ADMIN' || user.role === 'OWNER') { %>
-                    <li>
-                        <a class="dropdown-item text-warning fw-bold" href="/admin/dashboard">
-                            <i class="fas fa-chart-line me-2"></i>Trang quản lý
-                        </a>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                <% } %>
+
+    <% if (typeof user !== 'undefined' && user && (user.role === 'ADMIN' || user.role === 'OWNER')) { %>
+        <li class="nav-item">
+            <a class="nav-link px-3 fw-bold text-warning" href="/admin/dashboard">
+                <i class="fas fa-chart-line me-2"></i>DASHBOARD
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link px-3 fw-bold text-white" href="/admin/bookings">
+                <i class="fas fa-tasks me-2"></i>QUẢN LÝ ĐƠN
+            </a>
+        </li>
+
+    <% } else { %>
+        <li class="nav-item"><a class="nav-link px-3" href="/">Trang chủ</a></li>
+        <li class="nav-item"><a class="nav-link px-3" href="/cars">Dòng xe</a></li>
+        
+        <% if (typeof user !== 'undefined' && user) { %>
+            <li class="nav-item"><a class="nav-link px-3" href="/bookings/my-bookings">Lịch sử</a></li>
+        <% } else { %>
+            <li class="nav-item">
+                <a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Lịch sử</a>
+            </li>
+        <% } %>
+    <% } %>
+
+    <% if (typeof user !== 'undefined' && user) { %>
+        <li class="nav-item ms-lg-3 dropdown">
+            <a class="btn btn-outline-light rounded-pill px-4 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                Xin chào, <%= user.name %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2">
                 <li><a class="dropdown-item text-danger" href="/auth/logout">Đăng xuất</a></li>
             </ul>
-                        </li>
-
-                    <% } else { %>
-                        <li class="nav-item">
-                            <a class="nav-link px-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Lịch sử</a>
-                        </li>
-
-                        <li class="nav-item ms-lg-3">
-                            <button class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
-                                <i class="fas fa-user me-2"></i>Đăng nhập
-                            </button>
-                        </li>
-                    <% } %>
-                </ul>
+        </li>
+    <% } else { %>
+        <li class="nav-item ms-lg-3">
+            <button class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+                <i class="fas fa-user me-2"></i>Đăng nhập
+            </button>
+        </li>
+    <% } %>
+</ul>
             </div>
         </div>
     </nav>

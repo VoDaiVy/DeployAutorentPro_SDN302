@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const carSchema = new mongoose.Schema({
     brand: { type: String, required: true },
     model: { type: String, required: true },
+    ownerId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User',
+        required: true 
+    },
     licensePlate: { type: String, required: true, unique: true },
     pricePerDay: { type: Number, required: true },
     pricePerHour: { type: Number, required: true },
@@ -15,7 +20,13 @@ const carSchema = new mongoose.Schema({
     seats: { type: Number, default: 4 },
     transmission: { type: String, default: 'Tự động' },
     fuelType: { type: String, default: 'Xăng' },
-    description: { type: String }
+    description: { type: String },
+
+    ownerId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User', 
+        required: true 
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Car', carSchema);
