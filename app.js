@@ -2,6 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const session = require('express-session'); 
+const http = require('http'); 
+const https = require('https');
+const fs = require('fs'); 
+
 const app = express();
 
 const Car = require('./models/Car');
@@ -49,7 +53,31 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server chạy tại port: ${port}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    try {
+        const sslOptions = {
+            key: fs.readFileSync(path.join(__dirname, 'cert', 'server.key')),
+            cert: fs.readFileSync(path.join(__dirname, 'cert', 'server.crt'))
+        };
+
+        const HTTPS_PORT = 443;
+
+        https.createServer(sslOptions, app).listen(HTTPS_PORT, () => {
+            console.log(`Local HTTPS Server bảo mật đang chạy tại: https://localhost:${HTTPS_PORT}`);
+        });
+
+        http.createServer((req, res) => {
+            const host = req.headers.host.split(':')[0]; 
+            res.writeHead(301, { "Location": `https://${host}:${HTTPS_PORT}${req.url}` }); 
+            res.end();
+        });
+
+    } catch (err) {
+        console.error("LỖI: Không tìm thấy file chứng chỉ trong thư mục /cert. Hãy đảm bảo bạn đã chạy OpenSSL.");
+    }
+} else {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => {
+        console.log(`Server đang chạy ổn định tại cổng ${PORT}`);
+    });
+}
