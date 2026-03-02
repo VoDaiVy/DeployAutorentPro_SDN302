@@ -13,6 +13,7 @@ const authRoutes = require('./routes/auth');
 const bookingRoutes = require('./routes/bookings');
 const userRoutes = require('./routes/users');
 const adminRoutes = require('./routes/admin'); 
+const ownerRoutes = require('./routes/owner');
 
 const dbURL = process.env.MONGODB_URI || 'mongodb+srv://VoDaiVy:Daivyluonnoluc1324@chapter6sdn302.ixjjuz5.mongodb.net/autorent_pro';
 
@@ -42,6 +43,7 @@ app.use('/cars', carRoutes);
 app.use('/auth', authRoutes); 
 app.use('/bookings', bookingRoutes);
 app.use('/admin', adminRoutes); 
+app.use('/owner', ownerRoutes);
 
 app.get('/', (req, res) => {
     res.render('index');

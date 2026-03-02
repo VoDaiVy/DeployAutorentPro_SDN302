@@ -13,7 +13,7 @@ const carSchema = new mongoose.Schema({
     pricePerHour: { type: Number, required: true },
     status: {
         type: String,
-        enum: ['AVAILABLE', 'RENTED', 'MAINTENANCE'],
+        enum: ['PENDING_APPROVAL', 'AVAILABLE', 'RENTED', 'MAINTENANCE'],
         default: 'AVAILABLE'
     },
     image: { type: String, required: true },

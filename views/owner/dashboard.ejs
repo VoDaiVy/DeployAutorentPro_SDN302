@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - AutoRent Pro</title>
+    <title>Kênh Chủ Xe - AutoRent Pro</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/style.css">
@@ -13,26 +13,18 @@
 <div class="admin-container">
     
     <div class="sidebar">
-        <div class="brand">
-            <i class="fas fa-car-tunnel me-2"></i> AUTORENT ADMIN
+        <div class="brand text-info border-bottom border-info border-opacity-25">
+            <i class="fas fa-store me-2"></i> KÊNH CHỦ XE
         </div>
         <ul class="sidebar-menu">
             <li>
-                <a href="/admin/dashboard" class="active">
+                <a href="/owner/dashboard" class="active">
                     <i class="fas fa-th-large"></i> Tổng quan
                 </a>
             </li>
             <li>
-                <a href="/admin/bookings">
-                    <i class="fas fa-file-invoice-dollar"></i> Quản lý đơn đặt
-                    <% if(stats.pendingCount > 0) { %>
-                        <span class="badge bg-danger ms-2 rounded-pill"><%= stats.pendingCount %></span>
-                    <% } %>
-                </a>
-            </li>
-            <li>
-                <a href="/admin/cars">
-                    <i class="fas fa-car"></i> Quản lý xe
+                <a href="/owner/cars" class="<%= typeof currentPath !== 'undefined' && currentPath === '/owner/cars' ? 'active' : '' %>">
+                    <i class="fas fa-car"></i> Quản lý xe của tôi
                 </a>
             </li>
             <li class="mt-4 border-top border-secondary pt-2">
@@ -52,12 +44,12 @@
         
         <div class="d-flex justify-content-between align-items-center mb-5">
             <div>
-                <h3 class="fw-bold m-0">Dashboard</h3>
-                <p class="text-muted m-0">Chào mừng trở lại, Admin!</p>
+                <h3 class="fw-bold m-0 text-info">Dashboard Chủ Xe</h3>
+                <p class="text-muted m-0">Chào mừng bạn quay trở lại quản lý xe của mình!</p>
             </div>
             <div class="d-flex align-items-center">
                 <div class="bg-white p-2 rounded shadow-sm px-3">
-                    <i class="fas fa-calendar-alt text-primary me-2"></i>
+                    <i class="fas fa-calendar-alt text-info me-2"></i>
                     <%= new Date().toLocaleDateString('vi-VN') %>
                 </div>
             </div>
@@ -65,9 +57,9 @@
 
         <div class="row g-4 mb-5">
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card border-bottom border-success border-4">
                     <div>
-                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Tổng doanh thu</h6>
+                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Doanh thu của tôi</h6>
                         <h4 class="fw-bold text-success mb-0"><%= stats.revenue.toLocaleString('vi-VN') %> đ</h4>
                     </div>
                     <div class="stats-icon bg-success bg-opacity-10 text-success">
@@ -77,9 +69,9 @@
             </div>
 
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card border-bottom border-primary border-4">
                     <div>
-                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Tổng đơn hàng</h6>
+                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Đơn khách đặt</h6>
                         <h4 class="fw-bold text-primary mb-0"><%= stats.totalBookings %></h4>
                     </div>
                     <div class="stats-icon bg-primary bg-opacity-10 text-primary">
@@ -89,9 +81,9 @@
             </div>
 
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card border-bottom border-info border-4">
                     <div>
-                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Tổng số xe</h6>
+                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Xe của tôi</h6>
                         <h4 class="fw-bold text-info mb-0"><%= stats.totalCars %></h4>
                     </div>
                     <div class="stats-icon bg-info bg-opacity-10 text-info">
@@ -101,9 +93,9 @@
             </div>
 
             <div class="col-md-3">
-                <div class="stats-card">
+                <div class="stats-card border-bottom border-danger border-4">
                     <div>
-                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Cần xử lý</h6>
+                        <h6 class="text-muted text-uppercase mb-2" style="font-size: 0.8rem;">Đơn đang chờ duyệt</h6>
                         <h4 class="fw-bold text-danger mb-0"><%= stats.pendingCount %> đơn</h4>
                     </div>
                     <div class="stats-icon bg-danger bg-opacity-10 text-danger">
@@ -113,54 +105,9 @@
             </div>
         </div>
 
-        <% if (typeof pendingCars !== 'undefined' && pendingCars && pendingCars.length > 0) { %>
-            <div class="card border-0 shadow-sm rounded-3 mb-5 border-start border-danger border-4">
-                <div class="card-header bg-white py-3 border-0">
-                    <h6 class="fw-bold m-0 text-danger"><i class="fas fa-exclamation-circle me-2"></i>Xe đang chờ Admin duyệt</h6>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table align-middle mb-0">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th class="ps-4">Chủ xe</th>
-                                    <th>Thông tin xe</th>
-                                    <th>Giá thuê</th>
-                                    <th class="text-end pe-4">Hành động</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% pendingCars.forEach(car => { %>
-                                    <tr>
-                                        <td class="ps-4 fw-bold"><%= car.ownerId ? car.ownerId.name : 'Ẩn danh' %></td>
-                                        <td>
-                                            <div class="fw-bold"><%= car.model %></div>
-                                            <small class="text-muted"><%= car.brand %> - <%= car.licensePlate %></small>
-                                        </td>
-                                        <td class="text-success fw-bold"><%= car.pricePerDay.toLocaleString('vi-VN') %> đ/ngày</td>
-                                        <td class="text-end pe-4">
-                                            <div class="d-flex justify-content-end gap-2">
-                                                <form action="/admin/cars/approve/<%= car._id %>" method="POST">
-                                                    <button type="submit" class="btn btn-sm btn-success fw-bold" onclick="return confirm('Bạn cho phép xe này được thuê?')"><i class="fas fa-check me-1"></i> Duyệt</button>
-                                                </form>
-                                                <form action="/admin/cars/reject/<%= car._id %>" method="POST">
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger fw-bold" onclick="return confirm('Từ chối và xóa xe này?')"><i class="fas fa-times me-1"></i> Từ chối</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <% }) %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        <% } %>
-
         <div class="card border-0 shadow-sm rounded-3">
             <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
-                <h6 class="fw-bold m-0"><i class="fas fa-clock me-2 text-warning"></i>Đơn đặt xe mới nhất</h6>
-                <a href="/admin/bookings" class="btn btn-sm btn-outline-primary rounded-pill">Xem tất cả</a>
+                <h6 class="fw-bold m-0 text-info"><i class="fas fa-clock me-2"></i>Khách hàng mới nhất của bạn</h6>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -168,7 +115,7 @@
                         <thead class="bg-light">
                             <tr>
                                 <th class="ps-4">Khách hàng</th>
-                                <th>Xe đặt</th>
+                                <th>Xe của bạn</th>
                                 <th>Ngày tạo</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
@@ -180,9 +127,15 @@
                                     <td class="ps-4">
                                         <div class="fw-bold"><%= booking.userId ? booking.userId.name : 'Ẩn danh' %></div>
                                     </td>
-                                    <td><%= booking.carId ? booking.carId.model : 'Xe đã xóa' %></td>
+                                    <td>
+                                        <% if (booking.carId) { %>
+                                            <span class="fw-bold"><%= booking.carId.model %></span>
+                                        <% } else { %>
+                                            <span class="text-danger">Xe đã xóa</span>
+                                        <% } %>
+                                    </td>
                                     <td class="text-muted small"><%= new Date(booking.createdAt).toLocaleDateString('vi-VN') %></td>
-                                    <td class="fw-bold"><%= booking.totalPrice ? booking.totalPrice.toLocaleString('vi-VN') : 0 %> đ</td>
+                                    <td class="fw-bold text-success"><%= booking.totalPrice ? booking.totalPrice.toLocaleString('vi-VN') : 0 %> đ</td>
                                     <td>
                                         <% if(booking.status === 'PENDING') { %>
                                             <span class="badge bg-warning text-dark">Chờ duyệt</span>
@@ -197,7 +150,7 @@
                                 </tr>
                             <% }) %>
                             <% if(recentBookings.length === 0) { %>
-                                <tr><td colspan="5" class="text-center py-4 text-muted">Chưa có đơn hàng nào</td></tr>
+                                <tr><td colspan="5" class="text-center py-5 text-muted"><i class="fas fa-box-open fs-1 mb-3 d-block"></i>Bạn chưa có đơn đặt xe nào</td></tr>
                             <% } %>
                         </tbody>
                     </table>

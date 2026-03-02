@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý xe - Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="admin-container">
+    
+    <div class="sidebar">
+        <div class="brand"><i class="fas fa-car-tunnel me-2"></i> AUTORENT ADMIN</div>
+        <ul class="sidebar-menu">
+            <li><a href="/admin/dashboard"><i class="fas fa-th-large"></i> Tổng quan</a></li>
+            <li><a href="/admin/bookings"><i class="fas fa-file-invoice-dollar"></i> Quản lý đơn đặt</a></li>
+            <li><a href="/admin/cars" class="active"><i class="fas fa-car"></i> Quản lý xe</a></li>
+            <li class="mt-4 border-top border-secondary pt-2"><a href="/" target="_blank"><i class="fas fa-external-link-alt"></i> Xem Website</a></li>
+            <li><a href="/auth/logout" class="text-danger"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold m-0 text-dark">Quản Lý Toàn Bộ Xe</h3>
+            <a href="/admin/cars/add" class="btn btn-primary text-white fw-bold shadow-sm">
+                <i class="fas fa-plus me-2"></i>Thêm xe mới (Quyền Admin)
+            </a>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-3">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0 table-hover">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="ps-4">Chủ sở hữu</th>
+                                <th>Thông tin xe</th>
+                                <th>Giá thuê</th>
+                                <th>Trạng thái</th>
+                                <th class="text-end pe-4">Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cars.forEach(car => { %>
+                                <tr>
+                                    <td class="ps-4 fw-bold text-primary">
+                                        <%= car.ownerId ? car.ownerId.name : 'Ẩn danh' %>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold"><%= car.model %></div>
+                                        <small class="text-muted"><%= car.brand %> | <%= car.licensePlate %></small>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold text-success"><%= car.pricePerDay.toLocaleString('vi-VN') %>đ/ngày</div>
+                                    </td>
+                                    <td>
+                                        <% if(car.status === 'AVAILABLE') { %><span class="badge bg-success">SẴN SÀNG</span>
+                                        <% } else if(car.status === 'RENTED') { %><span class="badge bg-primary">ĐANG THUÊ</span>
+                                        <% } else if(car.status === 'PENDING_APPROVAL') { %><span class="badge bg-warning text-dark">CHỜ DUYỆT</span>
+                                        <% } else { %><span class="badge bg-secondary">BẢO TRÌ</span><% } %>
+                                    </td>
+                                    <td class="text-end pe-4">
+                                        <a href="/admin/cars/edit/<%= car._id %>" class="btn btn-sm btn-outline-info"><i class="fas fa-edit"></i> Sửa</a>
+                                        <a href="/admin/cars/delete/<%= car._id %>" class="btn btn-sm btn-outline-danger ms-1" onclick="return confirm('Xóa vĩnh viễn xe này?')"><i class="fas fa-trash"></i> Xóa</a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

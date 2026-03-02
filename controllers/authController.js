@@ -19,7 +19,38 @@ const register = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
         await User.create({ name, email, password: hashedPassword });
-        res.send('<script>alert("Đăng ký thành công! Hãy đăng nhập."); window.location.href="/users/login";</script>');
+        res.send(`
+            <!DOCTYPE html>
+            <html lang="vi">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Chuyển hướng...</title>
+                <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <style>
+                    body { font-family: 'Poppins', sans-serif; background-color: #f8f9fa; }
+                    /* Chỉnh màu nút bấm cho hợp tông Vàng/Đen của web */
+                    .swal2-confirm { border-radius: 50rem !important; font-weight: bold !important; padding: 10px 30px !important; }
+                </style>
+            </head>
+            <body>
+                <script>
+                    Swal.fire({
+                        title: 'Chào mừng thành viên mới!',
+                        text: 'Bạn đã đăng ký tài khoản thành công.',
+                        icon: 'success',
+                        iconColor: '#ffc107',
+                        confirmButtonText: 'Đăng nhập ngay',
+                        confirmButtonColor: '#111111' // Nút màu đen giống giao diện
+                    }).then((result) => {
+                        // Chờ người dùng bấm nút OK rồi mới chuyển hướng để bật Modal
+                        window.location.href = "/?login=true";
+                    });
+                </script>
+            </body>
+            </html>
+        `);
     } catch (error) {
         res.status(500).send('Lỗi đăng ký: ' + error.message);
     }
@@ -36,15 +67,30 @@ const login = async (req, res) => {
         
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.send('<script>alert("Sai mật khẩu!"); window.history.back();</script>');
+            res.send(`
+            <html>
+            <head><script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script></head>
+            <body>
+                <script>
+                    Swal.fire({
+                        title: 'Lỗi đăng nhập!',
+                        text: 'Mật khẩu của bạn không chính xác.',
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545'
+                    }).then(() => { window.history.back(); });
+                </script>
+            </body>
+            </html>
+        `);
         }
         
         req.session.user = user;
 
-        if (user.role === 'ADMIN' || user.role === 'OWNER') {
-            console.log('Admin logged in -> Redirecting to Dashboard'); 
+        if (user.role === 'ADMIN') {
             return res.redirect('/admin/dashboard');
-        } 
+        } else if (user.role === 'OWNER') {
+            return res.redirect('/owner/dashboard');
+        }
         
         res.redirect('/');
 

@@ -17,6 +17,12 @@ const getDashboard = async (req, res) => {
         const bookingQuery = user.role === 'OWNER' ? { carId: { $in: myCarIds } } : {};
         const bookings = await Booking.find(bookingQuery).populate('userId').populate('carId');
         
+        // [THÊM MỚI] Lấy danh sách xe đang chờ duyệt (Chỉ Admin mới cần quan tâm)
+        let pendingCars = [];
+        if (user.role === 'ADMIN') {
+            pendingCars = await Car.find({ status: 'PENDING_APPROVAL' }).populate('ownerId');
+        }
+        
         // Thống kê
         const stats = {
             totalCars: cars.length,
@@ -40,6 +46,7 @@ const getDashboard = async (req, res) => {
         res.render('admin/dashboard', { 
             cars, 
             recentBookings, 
+            pendingCars, // [THÊM MỚI] Trả biến này ra View để hiển thị bảng duyệt xe
             stats,
             currentPath: '/admin/dashboard'
         });
@@ -59,6 +66,9 @@ const createCar = async (req, res) => {
         const carData = req.body;
         // Bắt buộc: Gán xe mới tạo cho người đang đăng nhập (Admin hoặc Owner)
         carData.ownerId = req.session.user._id; 
+
+        // Nếu Admin tự thêm xe thì duyệt luôn (AVAILABLE), nếu không thì PENDING_APPROVAL
+        carData.status = req.session.user.role === 'ADMIN' ? 'AVAILABLE' : 'PENDING_APPROVAL';
 
         const newCar = new Car(carData); 
         await newCar.save(); 
@@ -107,6 +117,16 @@ const deleteCar = async (req, res) => {
     }
 };
 
+// === [THÊM MỚI] HÀM DUYỆT XE CỦA ADMIN ===
+const approveCar = async (req, res) => {
+    try {
+        // Chuyển trạng thái xe thành Sẵn sàng (AVAILABLE)
+        await Car.findByIdAndUpdate(req.params.id, { status: 'AVAILABLE' });
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        res.status(500).send('Lỗi duyệt xe: ' + error.message);
+    }
+};
 
 // === 3. QUẢN LÝ ĐƠN HÀNG (CÓ PHÂN QUYỀN & PHÂN TRANG) ===
 const getBookings = async (req, res) => {
@@ -178,6 +198,25 @@ const updateBookingStatus = async (req, res) => {
     }
 };
 
+const rejectCar = async (req, res) => {
+    try {
+        await Car.findByIdAndDelete(req.params.id);
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        res.status(500).send('Lỗi từ chối xe: ' + error.message);
+    }
+};
+
+// Lấy toàn bộ danh sách xe cho trang Quản lý xe của Admin
+const getCars = async (req, res) => {
+    try {
+        const cars = await Car.find().populate('ownerId').sort({ createdAt: -1 });
+        res.render('admin/cars', { cars, currentPath: '/admin/cars' });
+    } catch (error) {
+        res.status(500).send("Lỗi: " + error.message);
+    }
+};
+
 module.exports = {
     getDashboard,
     getAddCarPage,
@@ -185,6 +224,9 @@ module.exports = {
     getEditCarPage,
     updateCar,
     deleteCar,
+    approveCar,
+    rejectCar, 
+    getCars,
     getBookings,
     updateBookingStatus
 };

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= car ? 'Sửa thông tin xe' : 'Thêm xe mới' %> - AutoRent Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg rounded-4">
+                <div class="card-header bg-info text-white p-4 rounded-top-4">
+                    <h4 class="fw-bold mb-0 text-center"><i class="fas fa-car me-2"></i><%= car ? 'CẬP NHẬT THÔNG TIN XE' : 'ĐĂNG XE MỚI LÊN HỆ THỐNG' %></h4>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form action="<%= car ? '/owner/cars/edit/' + car._id : '/owner/cars/add' %>" method="POST">
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Hãng xe</label>
+                                <input type="text" name="brand" class="form-control" value="<%= car ? car.brand : '' %>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Dòng xe (Model)</label>
+                                <input type="text" name="model" class="form-control" value="<%= car ? car.model : '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small mb-1">Biển số xe</label>
+                            <input type="text" name="licensePlate" class="form-control" value="<%= car ? car.licensePlate : '' %>" required>
+                        </div>
+
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Giá thuê NGÀY (VNĐ)</label>
+                                <input type="number" name="pricePerDay" class="form-control" value="<%= car ? car.pricePerDay : '' %>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="fw-bold small mb-1">Giá thuê GIỜ (VNĐ)</label>
+                                <input type="number" name="pricePerHour" class="form-control" value="<%= car ? car.pricePerHour : '' %>" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold small mb-1">Link Hình Ảnh (URL)</label>
+                            <input type="text" name="image" class="form-control" value="<%= car ? car.image : '' %>" required>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-info text-white fw-bold px-5">LƯU THÔNG TIN</button>
+                            <a href="/owner/cars" class="btn btn-light border px-4">Hủy bỏ</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
